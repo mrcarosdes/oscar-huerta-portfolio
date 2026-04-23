@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Palacio de Hierro — Oscar Huerta</title>
+<meta name="description" content="El Palacio de Hierro e-commerce redesign — UX/UI Design and Design Systems by Oscar Huerta. Luxury retail, 2023.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;1,700;1,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --off-black: #0f0f0f; --card: #131313;
+    --border: #1e1e1e; --muted: #2a2a2a;
+    --text-dim: #888; --text-mid: #aaa; --text-light: #ccc; --text-white: #f0ede8;
+    --accent: #c8f55a;
+    --pad: clamp(24px, 5vw, 72px);
+    --content-max: 720px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text-white); font-family: 'Raleway', sans-serif; overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px var(--pad); background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .nav-logo:hover { color: var(--text-white); }
+  .back-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .back-btn:hover { color: var(--accent); }
+
+  /* ── HERO — editorial split ── */
+  .hero {
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-left {
+    padding: 64px var(--pad);
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--border);
+    background: var(--off-black);
+    overflow: hidden;
+    min-width: 0;
+  }
+  .hero-right {
+    position: relative; overflow: hidden;
+  }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.72);
+    transition: transform 8s ease, filter 0.6s ease;
+    transform: scale(1.05);
+  }
+  .hero-right:hover img { transform: scale(1); filter: brightness(0.88); }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .hero-counter {
+    font-size: clamp(100px, 18vw, 240px); font-weight: 800;
+    line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--border);
+    user-select: none; pointer-events: none;
+  }
+  .hero-title {
+    font-size: clamp(36px, 4.5vw, 64px); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 2px;
+  }
+  .tag.accent { border-color: rgba(200,245,90,0.3); color: var(--accent); }
+  .hero-meta-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 32px;
+  }
+  .mini-meta { flex: 1; padding: 16px 18px; border-right: 1px solid var(--border); }
+  .mini-meta:last-child { border-right: none; }
+  .mini-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .mini-value { font-size: 12px; font-weight: 600; }
+
+  /* ── CONTENT GRID ── */
+  .grid-row {
+    display: grid;
+    grid-template-columns: 64px 1fr 280px;
+    border-bottom: 1px solid var(--border);
+  }
+  .grid-row.alt { background: var(--off-black); }
+  .grid-gutter {
+    padding: 64px 0; border-right: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 72px;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.15em; color: var(--accent);
+    writing-mode: vertical-rl; text-orientation: mixed;
+    user-select: none;
+  }
+  .grid-main { padding: 64px 48px; }
+  .grid-aside {
+    border-left: 1px solid var(--border);
+    padding: 64px 28px;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .overline {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: clamp(26px, 3.5vw, 44px); font-weight: 800;
+    line-height: 1; letter-spacing: -0.03em; margin-bottom: 28px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  p.body { font-size: 15px; line-height: 1.9; color: var(--text-light); }
+  p.body + p.body { margin-top: 16px; }
+
+  /* ── ASIDE CALLOUTS ── */
+  .aside-stat { }
+  .aside-stat-n {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1;
+  }
+  .aside-stat-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim); margin-top: 6px;
+  }
+  .aside-note {
+    padding: 20px; background: var(--card); border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+  }
+  .aside-note-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .aside-note-text { font-size: 13px; line-height: 1.65; color: var(--text-light); }
+  .aside-divider { height: 1px; background: var(--border); }
+
+  /* ── IMAGES ── */
+  .img-full { width: 100%; display: block; transition: transform 0.5s ease; }
+  .img-wrap-inner { overflow: hidden; }
+  .img-wrap-inner:hover .img-full { transform: scale(1.02); }
+  .img-caption {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim); padding: 12px 0;
+  }
+  .img-gap { margin-top: 2px; }
+  .half-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+  /* ── PRINCIPLES ── */
+  .principles { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 32px; }
+  .p-card {
+    border: 1px solid var(--border); padding: 32px 28px;
+    position: relative; transition: background 0.25s;
+  }
+  .p-card:hover { background: var(--card); }
+  .p-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 14px; display: block; }
+  .p-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .p-body { font-size: 13px; line-height: 1.7; color: var(--text-mid); }
+
+  /* ── PULL QUOTE ── */
+  .inline-quote {
+    margin: 40px 0; padding: 32px 36px;
+    border-left: 2px solid var(--accent);
+    background: rgba(200,245,90,0.04);
+  }
+  .inline-quote-text {
+    font-size: clamp(18px, 2vw, 24px); font-weight: 700;
+    line-height: 1.4; letter-spacing: -0.01em;
+  }
+  .inline-quote-text em { color: var(--accent); font-style: italic; }
+
+  /* ── IMPACT ROW ── */
+  .impact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 32px; min-width: 0; }
+  .impact-card { padding: clamp(20px, 4vw, 40px); border: 1px solid var(--border); min-width: 0; }
+  .impact-n {
+    font-size: clamp(48px, 7vw, 80px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1; margin-bottom: 8px;
+  }
+  .impact-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  /* ── NEXT ── */
+  .next {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 72px var(--pad); text-decoration: none; color: inherit;
+    border-top: 1px solid var(--border); background: var(--off-black); gap: 24px;
+    transition: background 0.3s;
+  }
+  .next:hover { background: var(--card); }
+  .next-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .next-title { font-size: clamp(32px, 5vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 0.9; transition: color 0.2s; }
+  .next:hover .next-title { color: var(--accent); }
+  .next-arrow { font-size: 44px; color: var(--text-dim); transition: all 0.3s; flex-shrink: 0; }
+  .next:hover .next-arrow { color: var(--accent); transform: translateX(10px); }
+
+  /* ── FOOTER ── */
+  footer { padding: 28px var(--pad); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+
+  /* Large Tablet (≤ 1200px) */
+  @media (max-width: 1200px) {
+    .grid-row { grid-template-columns: 64px 1fr 240px; }
+  }
+
+  /* Tablet (≤ 1024px): hide aside, keep gutter */
+  @media (max-width: 1024px) {
+    .grid-row { grid-template-columns: 48px 1fr; }
+    .grid-aside { display: none; }
+    .hero-counter { font-size: clamp(80px, 14vw, 160px); }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Tablet portrait (≤ 768px): stack hero, show aside below */
+  @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      grid-template-rows: 260px auto;
+      min-height: auto;
+    }
+    .hero-left {
+      order: 2;
+      border-right: none;
+      border-top: 1px solid var(--border);
+      padding: 40px var(--pad) 48px;
+      gap: 32px;
+    }
+    .hero-right { order: 1; height: 260px; }
+    .hero-counter { font-size: clamp(72px, 20vw, 120px); }
+
+    .grid-row { grid-template-columns: 1fr; }
+    .grid-gutter { display: none; }
+    .grid-main { padding: 48px var(--pad); }
+
+    .grid-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      padding: 32px var(--pad) 40px;
+    }
+    .aside-divider { display: none; }
+    .aside-stat { padding: 0 0 24px; }
+    .aside-stat-n { font-size: clamp(32px, 8vw, 48px); }
+    .aside-note { margin-bottom: 12px; }
+
+    .half-grid { grid-template-columns: 1fr; }
+    .principles { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .hero-meta-row { flex-wrap: wrap; }
+    .mini-meta { flex: 1 1 100px; border-right: none; border-bottom: 1px solid var(--border); }
+    .mini-meta:last-child { border-bottom: none; }
+
+    .next { padding: 48px var(--pad); }
+    .next-title { font-size: clamp(28px, 7vw, 48px); }
+
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+
+  /* Mobile (≤ 480px) */
+  @media (max-width: 480px) {
+    .hero-right { height: 200px; }
+    .hero-counter { font-size: clamp(56px, 22vw, 96px); }
+    .hero-meta-row { flex-direction: column; }
+    .mini-meta { border-right: none; }
+
+    .impact-grid { grid-template-columns: 1fr; }
+    .impact-card { padding: 28px 24px; }
+    .impact-n { font-size: clamp(40px, 11vw, 64px); }
+
+    .p-card { padding: 24px 20px; }
+    .inline-quote { padding: 24px 24px; margin: 32px 0; }
+    .grid-main { padding: 40px var(--pad); }
+    .grid-aside { padding: 24px var(--pad) 32px; }
+    nav { padding: 16px var(--pad); }
+    .next { padding: 40px var(--pad); gap: 16px; }
+    .next-arrow { font-size: 32px; }
+  }
+
+  img, video { max-width: 100%; height: auto; }
+  .hero-right img { height: 100%; width: 100%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .hero-right img { transform: none !important; }
+  }
+
+  /* ── ACCESSIBILITY ── */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  :focus:not(:focus-visible) { outline: none; }
+  .skip-link {
+    position: absolute; top: -100%; left: 24px; z-index: 10000;
+    background: var(--accent); color: var(--black);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    padding: 8px 24px; transition: top 0.2s;
+  }
+  .skip-link:focus { top: 24px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="index.html" class="nav-logo">Oscar Huerta</a>
+  <a href="index.html" class="back-btn">← All work</a>
+</nav>
+
+<main id="main-content">
+<!-- HERO: split screen -->
+<header class="hero">
+  <div class="hero-left">
+    <div>
+      <div class="hero-eyebrow">02 / 05 &nbsp;·&nbsp; Luxury Retail</div>
+    </div>
+    <div>
+      <div class="hero-counter">02</div>
+    </div>
+    <div>
+      <h1 class="hero-title">El Palacio<br><em>de Hierro</em></h1>
+      <div class="hero-tags">
+        <span class="tag accent">E-commerce</span>
+        <span class="tag">UX/UI Design</span>
+        <span class="tag">Design Systems</span>
+        <span class="tag">2023</span>
+      </div>
+      <div class="hero-meta-row">
+        <div class="mini-meta"><div class="mini-label">Role</div><div class="mini-value">Sr. Visual Designer</div></div>
+        <div class="mini-meta"><div class="mini-label">Duration</div><div class="mini-value">2 Years</div></div>
+        <div class="mini-meta"><div class="mini-label">Year</div><div class="mini-value">2023</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/488ebce2-ec81-4df5-bc9e-ecfc04c28792/2015_REMODELACION_PH_POLANCO_SMA_PRINT_PHOTO_by_Paul_Rivera_05_website_C.jpg" alt="El Palacio de Hierro — Polanco store interior">
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Overview</div></div>
+  <div class="grid-main">
+    <div class="overline">01 — Context</div>
+    <h2>A digital evolution for <em>luxury retail</em></h2>
+    <p class="body">El Palacio de Hierro is one of Mexico's most iconic luxury department stores — a brand synonymous with elegance, heritage, and premium experience. Translating that identity into a modern digital platform meant more than just a visual refresh.</p>
+    <p class="body">Redesigning a high-traffic e-commerce platform for a luxury brand meant simplifying a complex checkout process without losing the brand's sophistication. The challenge was to reduce friction, clarify steps, and improve mobile usability while staying true to Palacio de Hierro's premium identity.</p>
+    <div class="img-wrap-inner" style="margin-top: 40px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/d83f81ae-0e97-4991-9037-5fdf4469e062/Wireframes2.png" alt="Wireframes — checkout and navigation flows">
+      <div class="img-caption">Early wireframes — mapping checkout and navigation flows</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-stat">
+      <div class="aside-stat-n">35%</div>
+      <div class="aside-stat-label">Boost in purchase completions</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Scope</div>
+      <div class="aside-note-text">Full e-commerce redesign — checkout flow, mobile experience, and a scalable design system aligned across teams.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">My Role</div></div>
+  <div class="grid-main">
+    <div class="overline">02 — Contribution</div>
+    <h2>Checkout experience, mobile &amp; design system</h2>
+    <p class="body">As a Senior Visual Designer, my focus centered on enhancing the checkout experience across desktop and mobile, aiming for a more intuitive and seamless flow — one that felt worthy of the brand while being efficient for every shopper.</p>
+    <p class="body">Additional contributions included creating a shared design system that helped align teams and streamline interface development across the platform, laying the groundwork for long-term scalability.</p>
+    <div class="img-wrap-inner" style="margin-top: 40px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/ff147b67-4d80-474e-a53d-95fa1f75a335/Home+black.png" alt="Home screen — redesigned e-commerce homepage">
+      <div class="img-caption">Home screen — redesigned e-commerce homepage</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Deliverables</div>
+      <div class="aside-note-text">Wireframes · Visual design · Checkout flows · Component specs · Design system documentation · Accessibility audits</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Tools</div>
+      <div class="aside-note-text">Figma · Jira · Confluence · Zeroheight</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRINCIPLES -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Principles</div></div>
+  <div class="grid-main">
+    <div class="overline">03 — Design principles</div>
+    <h2>Four pillars that shaped every decision</h2>
+    <div class="principles">
+      <div class="p-card">
+        <span class="p-num">01</span>
+        <div class="p-title">Locally rooted, globally inspired</div>
+        <p class="p-body">Local culture, architecture, and landscape inspire every detail — bringing a sense of identity and pride to the experience.</p>
+      </div>
+      <div class="p-card">
+        <span class="p-num">02</span>
+        <div class="p-title">Craft meets modernity</div>
+        <p class="p-body">Artisan textures and premium materials come together to create a warm, refined atmosphere that feels both familiar and new.</p>
+      </div>
+      <div class="p-card">
+        <span class="p-num">03</span>
+        <div class="p-title">Inclusive, without compromise</div>
+        <p class="p-body">Accessibility, representation, and flexibility are prioritized to support a wide range of users without compromising on personality.</p>
+      </div>
+      <div class="p-card">
+        <span class="p-num">04</span>
+        <div class="p-title">Designed to invite discovery</div>
+        <p class="p-body">Curved paths, visual anchors, and layered layouts encourage exploration and create an immersive flow throughout the journey.</p>
+      </div>
+    </div>
+    <blockquote class="inline-quote" style="margin-top: 40px;">
+      <p class="inline-quote-text">A <em>premium digital experience</em> that blends innovation with cultural identity — designed to feel intuitive, inspiring, and unique.</p>
+    </blockquote>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Brand approach</div>
+      <div class="aside-note-text">Principles were developed to honor the brand's 130-year heritage while creating space for modern, mobile-first interaction patterns.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">Checkout</div></div>
+  <div class="grid-main">
+    <div class="overline">04 — Core feature</div>
+    <h2>A streamlined checkout for <em>every shopper</em></h2>
+    <p class="body">The checkout experience was carefully refined to minimize drop-off and simplify the purchase process. Every step was designed to be clear, fast, and user-friendly — ensuring customers can complete their orders smoothly across all devices.</p>
+    <p class="body">By improving visual hierarchy, simplifying steps, and adopting a mobile-first approach, the new checkout reduced friction and boosted purchase completions by 35%. The result is a seamless, refined path to purchase that enhances usability and confidence for all customers.</p>
+    <div class="img-wrap-inner" style="margin-top: 36px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/5bdf52ef-5669-4552-89ae-fcd7e18ac6eb/Checkout.png" alt="Checkout flow — redesigned screens">
+      <div class="img-caption">Checkout flow — redesigned screens across mobile and desktop</div>
+    </div>
+    <div class="img-wrap-inner img-gap">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/b3199c00-7e6e-44ec-b80f-2f7ca76c90d5/Shot.jpg" alt="App mockup in context">
+      <div class="img-caption">App mockup — product experience in context</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-stat">
+      <div class="aside-stat-n">35%</div>
+      <div class="aside-stat-label">Increase in purchase completions</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Focus</div>
+      <div class="aside-note-text">Mobile-first redesign with emphasis on reducing steps, improving visual hierarchy, and eliminating friction at each decision point.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN SYSTEM -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">System</div></div>
+  <div class="grid-main">
+    <div class="overline">05 — Design system</div>
+    <h2>One source of truth for the <em>entire platform</em></h2>
+    <p class="body">To ensure consistency across the entire e-commerce experience, I collaborated on building a scalable design system tailored to Palacio de Hierro's brand. Work involved defining and documenting reusable components aligned with the visual language and business goals.</p>
+    <p class="body">This system helped streamline the design process, improved handoff with development, and laid the groundwork for future scalability across desktop and mobile platforms.</p>
+    <div class="img-wrap-inner" style="margin-top: 36px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/4d9f90da-9bd6-40c1-bad4-446ea5729fb4/Icons+black.png" alt="Icon system">
+      <div class="img-caption">Icon system — consistent visual language across all touchpoints</div>
+    </div>
+    <div class="half-grid" style="margin-top: 2px;">
+      <div class="img-wrap-inner">
+        <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/311622f0-34ed-4666-9ceb-3a36c99ce182/Components2.png" alt="Component library">
+        <div class="img-caption">Component library</div>
+      </div>
+      <div class="img-wrap-inner">
+        <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/c68a5cb3-2ba3-4d7a-b635-f77273254c24/Components.png" alt="Design tokens and patterns">
+        <div class="img-caption">Design tokens &amp; patterns</div>
+      </div>
+    </div>
+    <div class="impact-grid" style="margin-top: 56px;">
+      <div class="impact-card"><div class="impact-n">35%</div><div class="impact-label">Purchase completions</div></div>
+      <div class="impact-card"><div class="impact-n">2yr</div><div class="impact-label">Project duration</div></div>
+      <div class="impact-card"><div class="impact-n">1</div><div class="impact-label">Unified design system</div></div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-stat">
+      <div class="aside-stat-n">1</div>
+      <div class="aside-stat-label">Unified system across all platforms</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Outcome</div>
+      <div class="aside-note-text">Reduced design inconsistencies and accelerated developer handoff — enabling faster iteration and a more cohesive brand experience at scale.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- NEXT PROJECT -->
+<a href="oscar-huerta-casestudy-flybox.html" class="next">
+  <div>
+    <div class="next-eyebrow">Next project</div>
+    <div class="next-title">Flybox</div>
+  </div>
+  <div class="next-arrow">→</div>
+</a>
+
+<footer>
+  <div class="footer-copy">© 2025 Oscar Huerta</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/oscar-huerta-ux/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

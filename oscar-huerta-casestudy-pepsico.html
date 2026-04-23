@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PepsiCo — Oscar Huerta</title>
+<meta name="description" content="PepsiCo design case study — Senior Visual Designer Oscar Huerta. Enterprise, design systems, 2022. Case study coming soon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;1,700;1,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --off-black: #0f0f0f; --card: #131313;
+    --border: #1e1e1e; --muted: #2a2a2a;
+    --text-dim: #888; --text-mid: #aaa; --text-light: #ccc; --text-white: #f0ede8;
+    --accent: #c8f55a;
+    --pad: clamp(24px, 5vw, 72px);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--black); color: var(--text-white);
+    font-family: 'Raleway', sans-serif; overflow-x: hidden;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px var(--pad); background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .nav-logo:hover { color: var(--text-white); }
+  .back-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .back-btn:hover { color: var(--accent); }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── LEFT PANEL ── */
+  .panel-left {
+    padding: 64px var(--pad);
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--border);
+    background: var(--off-black);
+    overflow: hidden; min-width: 0;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .counter {
+    font-size: clamp(100px, 18vw, 240px); font-weight: 800;
+    line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--border); user-select: none; pointer-events: none;
+  }
+  .title-block { }
+  .project-title {
+    font-size: clamp(44px, 6vw, 80px); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 32px;
+  }
+  .project-title em { font-style: italic; color: var(--accent); }
+
+  /* Status badge */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(200,245,90,0.25);
+    background: rgba(200,245,90,0.05);
+    padding: 10px 18px; border-radius: 2px; margin-bottom: 28px;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+  .status-text {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 2px;
+  }
+  .tag.accent { border-color: rgba(200,245,90,0.3); color: var(--accent); }
+
+  .meta-row { display: flex; border: 1px solid var(--border); margin-top: 32px; }
+  .mini-meta { flex: 1; padding: 16px 18px; border-right: 1px solid var(--border); }
+  .mini-meta:last-child { border-right: none; }
+  .mini-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .mini-value { font-size: 12px; font-weight: 600; }
+
+  /* ── RIGHT PANEL ── */
+  .panel-right {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 64px var(--pad);
+    position: relative; overflow: hidden;
+    gap: 48px;
+  }
+
+  /* Big decorative text behind */
+  .panel-right::before {
+    content: 'WIP';
+    position: absolute;
+    font-size: clamp(160px, 22vw, 300px); font-weight: 800;
+    letter-spacing: -0.05em; line-height: 1;
+    color: var(--border);
+    user-select: none; pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .wip-message {
+    position: relative; z-index: 1;
+    text-align: center; max-width: 340px;
+  }
+  .wip-title {
+    font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .wip-title em { font-style: italic; color: var(--accent); }
+  .wip-body {
+    font-size: 14px; line-height: 1.85;
+    color: var(--text-mid);
+    font-family: 'Raleway', sans-serif;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 340px;
+  }
+  .progress-label {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-label span {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .progress-label strong {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--accent); font-weight: 400;
+  }
+  .progress-track {
+    height: 2px; background: var(--border); border-radius: 1px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 60%;
+    background: var(--accent); border-radius: 1px;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* Teaser chips */
+  .teaser-chips {
+    position: relative; z-index: 1;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; max-width: 340px;
+  }
+  .chip {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 8px 14px; border-radius: 2px;
+    position: relative; overflow: hidden;
+  }
+  .chip.reveal {
+    border-color: rgba(200,245,90,0.2); color: var(--text-light);
+  }
+  .chip.reveal::before {
+    content: ''; position: absolute;
+    inset: 0; background: rgba(200,245,90,0.04);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 28px var(--pad); display: flex;
+    justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    main { grid-template-columns: 1fr; grid-template-rows: auto auto; min-height: auto; }
+    .panel-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px var(--pad) 48px; gap: 32px; }
+    .panel-right { padding: 48px var(--pad); min-height: 360px; }
+    .panel-right::before { font-size: clamp(100px, 30vw, 160px); }
+    .meta-row { flex-wrap: wrap; }
+    .mini-meta { flex: 1 1 100px; border-right: none; border-bottom: 1px solid var(--border); }
+    .mini-meta:last-child { border-bottom: none; }
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    nav { padding: 16px var(--pad); }
+    .counter { font-size: clamp(56px, 22vw, 96px); }
+    .meta-row { flex-direction: column; }
+  }
+
+  /* ── ACCESSIBILITY ── */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  :focus:not(:focus-visible) { outline: none; }
+  .skip-link {
+    position: absolute; top: -100%; left: 24px; z-index: 10000;
+    background: var(--accent); color: var(--black);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    padding: 8px 24px; transition: top 0.2s;
+  }
+  .skip-link:focus { top: 24px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="index.html" class="nav-logo">Oscar Huerta</a>
+  <a href="index.html" class="back-btn">← All work</a>
+</nav>
+
+<main id="main-content">
+  <!-- LEFT: project identity -->
+  <div class="panel-left">
+    <div>
+      <div class="eyebrow">05 / 05 &nbsp;·&nbsp; Food & Beverage</div>
+    </div>
+    <div>
+      <div class="counter">05</div>
+    </div>
+    <div class="title-block">
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span class="status-text">Case study in progress</span>
+      </div>
+      <h1 class="project-title">Pepsi<em>Co</em></h1>
+      <div class="tags">
+        <span class="tag">Design Systems</span>
+        <span class="tag">Enterprise</span>
+        <span class="tag">2022</span>
+      </div>
+      <div class="meta-row">
+        <div class="mini-meta"><div class="mini-label">Role</div><div class="mini-value">Product Designer</div></div>
+        <div class="mini-meta"><div class="mini-label">Client</div><div class="mini-value">PepsiCo</div></div>
+        <div class="mini-meta"><div class="mini-label">Duration</div><div class="mini-value">1 Year</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: coming soon state -->
+  <div class="panel-right">
+    <div class="wip-message">
+      <h2 class="wip-title">Full write-up<br><em>coming soon</em></h2>
+      <p class="wip-body">This case study is currently being documented. Check back soon for the full breakdown of the work done for PepsiCo.</p>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Documentation progress</span>
+        <strong>60%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="teaser-chips">
+      <div class="chip reveal">Design System</div>
+      <div class="chip reveal">Enterprise Tools</div>
+      <div class="chip">User flows</div>
+      <div class="chip">Final write-up</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-copy">© 2025 Oscar Huerta</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/oscar-huerta-ux/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

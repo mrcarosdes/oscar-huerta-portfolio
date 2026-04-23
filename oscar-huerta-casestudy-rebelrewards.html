@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rebel Rewards — Oscar Huerta</title>
+<meta name="description" content="Rebel Rewards fan engagement app for the University of Mississippi — UX/UI Design by Oscar Huerta. Mobile, loyalty, 2022.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;1,700;1,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --off-black: #0f0f0f; --card: #131313;
+    --border: #1e1e1e; --muted: #2a2a2a;
+    --text-dim: #888; --text-mid: #aaa; --text-light: #ccc; --text-white: #f0ede8;
+    --accent: #c8f55a;
+    --pad: clamp(24px, 5vw, 72px);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text-white); font-family: 'Raleway', sans-serif; overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px var(--pad); background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .nav-logo:hover { color: var(--text-white); }
+  .back-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .back-btn:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-left {
+    padding: 64px var(--pad);
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--border);
+    background: var(--off-black);
+    overflow: hidden; min-width: 0;
+  }
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.72);
+    transition: transform 8s ease, filter 0.6s ease;
+    transform: scale(1.05);
+  }
+  .hero-right:hover img { transform: scale(1); filter: brightness(0.88); }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .hero-counter {
+    font-size: clamp(100px, 18vw, 240px); font-weight: 800;
+    line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--border); user-select: none; pointer-events: none;
+  }
+  .hero-title {
+    font-size: clamp(36px, 4.8vw, 64px); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 32px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 2px;
+  }
+  .tag.accent { border-color: rgba(200,245,90,0.3); color: var(--accent); }
+  .hero-meta-row { display: flex; border: 1px solid var(--border); margin-top: 32px; }
+  .mini-meta { flex: 1; padding: 16px 18px; border-right: 1px solid var(--border); }
+  .mini-meta:last-child { border-right: none; }
+  .mini-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .mini-value { font-size: 12px; font-weight: 600; }
+
+  /* ── CONTENT GRID ── */
+  .grid-row {
+    display: grid;
+    grid-template-columns: 64px 1fr 280px;
+    border-bottom: 1px solid var(--border);
+  }
+  .grid-row.alt { background: var(--off-black); }
+  .grid-gutter {
+    border-right: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 72px;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.15em; color: var(--accent);
+    writing-mode: vertical-rl; text-orientation: mixed; user-select: none;
+  }
+  .grid-main { padding: 64px 48px; }
+  .grid-aside {
+    border-left: 1px solid var(--border);
+    padding: 64px 28px;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .overline {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: clamp(26px, 3.5vw, 44px); font-weight: 800;
+    line-height: 1; letter-spacing: -0.03em; margin-bottom: 28px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  p.body { font-size: 15px; line-height: 1.9; color: var(--text-light); }
+  p.body + p.body { margin-top: 16px; }
+
+  /* ── ASIDE ── */
+  .aside-stat-n {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1;
+  }
+  .aside-stat-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim); margin-top: 6px;
+  }
+  .aside-note {
+    padding: 20px; background: var(--card); border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+  }
+  .aside-note-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .aside-note-text { font-size: 13px; line-height: 1.65; color: var(--text-light); }
+  .aside-divider { height: 1px; background: var(--border); }
+
+  /* ── IMAGES ── */
+  .img-full { width: 100%; display: block; transition: transform 0.5s ease; }
+  .img-wrap-inner { overflow: hidden; }
+  .img-wrap-inner:hover .img-full { transform: scale(1.02); }
+  .img-caption {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim); padding: 12px 0;
+  }
+  .img-gap { margin-top: 2px; }
+  .half-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+  /* ── PULL QUOTE ── */
+  .inline-quote {
+    margin: 40px 0; padding: 32px 36px;
+    border-left: 2px solid var(--accent);
+    background: rgba(200,245,90,0.04);
+  }
+  .inline-quote-text {
+    font-size: clamp(18px, 2vw, 24px); font-weight: 700;
+    line-height: 1.4; letter-spacing: -0.01em;
+  }
+  .inline-quote-text em { color: var(--accent); font-style: italic; }
+
+  /* ── IMPACT ROW ── */
+  .impact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 32px; min-width: 0; }
+  .impact-card { padding: clamp(20px, 4vw, 40px); border: 1px solid var(--border); min-width: 0; }
+  .impact-n {
+    font-size: clamp(48px, 7vw, 80px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1; margin-bottom: 8px;
+  }
+  .impact-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  /* ── NEXT ── */
+  .next {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 72px var(--pad); text-decoration: none; color: inherit;
+    border-top: 1px solid var(--border); background: var(--off-black); gap: 24px;
+    transition: background 0.3s;
+  }
+  .next:hover { background: var(--card); }
+  .next-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .next-title { font-size: clamp(32px, 5vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 0.9; transition: color 0.2s; }
+  .next:hover .next-title { color: var(--accent); }
+  .next-arrow { font-size: 44px; color: var(--text-dim); transition: all 0.3s; flex-shrink: 0; }
+  .next:hover .next-arrow { color: var(--accent); transform: translateX(10px); }
+
+  /* ── FOOTER ── */
+  footer { padding: 28px var(--pad); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1200px) { .grid-row { grid-template-columns: 64px 1fr 240px; } }
+  @media (max-width: 1024px) {
+    .grid-row { grid-template-columns: 48px 1fr; }
+    .grid-aside { display: none; }
+    .hero-counter { font-size: clamp(80px, 14vw, 160px); }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; grid-template-rows: 260px auto; min-height: auto; }
+    .hero-left { order: 2; border-right: none; border-top: 1px solid var(--border); padding: 40px var(--pad) 48px; gap: 32px; }
+    .hero-right { order: 1; height: 260px; }
+    .hero-counter { font-size: clamp(72px, 20vw, 120px); }
+    .grid-row { grid-template-columns: 1fr; }
+    .grid-gutter { display: none; }
+    .grid-main { padding: 48px var(--pad); }
+    .grid-aside { display: flex; flex-direction: column; gap: 0; border-left: none; border-top: 1px solid var(--border); padding: 32px var(--pad) 40px; }
+    .aside-divider { display: none; }
+    .aside-note { margin-bottom: 12px; }
+    .half-grid { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero-meta-row { flex-wrap: wrap; }
+    .mini-meta { flex: 1 1 100px; border-right: none; border-bottom: 1px solid var(--border); }
+    .mini-meta:last-child { border-bottom: none; }
+    .next { padding: 48px var(--pad); }
+    .next-title { font-size: clamp(28px, 7vw, 48px); }
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    .hero-right { height: 200px; }
+    .hero-counter { font-size: clamp(56px, 22vw, 96px); }
+    .hero-meta-row { flex-direction: column; }
+    .mini-meta { border-right: none; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .impact-card { padding: 28px 24px; }
+    .inline-quote { padding: 24px; margin: 32px 0; }
+    .grid-main { padding: 40px var(--pad); }
+    .grid-aside { padding: 24px var(--pad) 32px; }
+    nav { padding: 16px var(--pad); }
+    .next { padding: 40px var(--pad); gap: 16px; }
+    .next-arrow { font-size: 32px; }
+  }
+  img, video { max-width: 100%; height: auto; }
+  .hero-right img { height: 100%; width: 100%; }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .hero-right img { transform: none !important; }
+  }
+
+  /* ── ACCESSIBILITY ── */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  :focus:not(:focus-visible) { outline: none; }
+  .skip-link {
+    position: absolute; top: -100%; left: 24px; z-index: 10000;
+    background: var(--accent); color: var(--black);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    padding: 8px 24px; transition: top 0.2s;
+  }
+  .skip-link:focus { top: 24px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="index.html" class="nav-logo">Oscar Huerta</a>
+  <a href="index.html" class="back-btn">← All work</a>
+</nav>
+
+<main id="main-content">
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-left">
+    <div>
+      <div class="hero-eyebrow">04 / 05 &nbsp;·&nbsp; Sports & Fan Engagement</div>
+    </div>
+    <div>
+      <div class="hero-counter">04</div>
+    </div>
+    <div>
+      <h1 class="hero-title">Rebel<br><em>Rewards</em></h1>
+      <div class="hero-tags">
+        <span class="tag accent">Mobile App</span>
+        <span class="tag">Wearable</span>
+        <span class="tag">UX/UI Design</span>
+        <span class="tag">Ole Miss</span>
+      </div>
+      <div class="hero-meta-row">
+        <div class="mini-meta"><div class="mini-label">Role</div><div class="mini-value">UI/UX Designer</div></div>
+        <div class="mini-meta"><div class="mini-label">Client</div><div class="mini-value">Univ. of Mississippi</div></div>
+        <div class="mini-meta"><div class="mini-label">Duration</div><div class="mini-value">1 Year</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/f111e088-47ea-4746-8bab-924d57ec0970/ole+miss_hero.png" alt="Rebel Rewards — University of Mississippi fan engagement app">
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Overview</div></div>
+  <div class="grid-main">
+    <div class="overline">01 — Context</div>
+    <h2>A loyalty platform that brings fans <em>closer to the game</em></h2>
+    <p class="body">Rebel Rewards is a fan engagement platform created for the University of Mississippi — designed to encourage students and alumni to attend events, earn points, and claim exclusive prizes. The app transformed passive fandom into active participation.</p>
+    <p class="body">Designing for a dual-platform experience — Android and Samsung Gear S2 — meant balancing simplicity and performance while maintaining consistent engagement across a phone screen and a wearable device with very limited real estate.</p>
+    <div class="img-wrap-inner" style="margin-top: 40px; max-height: 520px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/f1d65c42-a58e-4608-91dd-26c81abafb79/Shot+phone2.png" alt="Rebel Rewards mobile app overview" style="height: 520px; object-fit: cover; object-position: center top;">
+      <div class="img-caption">Mobile app — fan-facing experience overview</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div>
+      <div class="aside-stat-n">2</div>
+      <div class="aside-stat-label">Platforms — Android & Gear S2</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Technology</div>
+      <div class="aside-note-text">Geofencing · Ticket scanning · Beacon technology — automatic point detection when fans are present at events.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">My Role</div></div>
+  <div class="grid-main">
+    <div class="overline">02 — Contribution</div>
+    <h2>End-to-end design across <em>mobile and wearable</em></h2>
+    <p class="body">I led the end-to-end design of both the Android and Gear S2 apps — working across visual design, user flows, wireframes, and interactive prototypes. Each version was tailored to its platform, balancing feature parity with platform-specific constraints.</p>
+    <p class="body">The core challenge was creating compelling functionality even on the wearable's limited screen real estate — ensuring rapid access to essential features through smooth navigation and responsive feedback optimized for both contexts.</p>
+    <blockquote class="inline-quote" style="margin-top: 40px;">
+      <p class="inline-quote-text">Designing for engagement meant making every interaction feel <em>effortless</em> — whether on a phone in the stands or a watch on the wrist.</p>
+    </blockquote>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Deliverables</div>
+      <div class="aside-note-text">Visual design · User flows · Wireframes · Interactive prototypes · Platform-specific UI guidelines</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Client</div>
+      <div class="aside-note-text">University of Mississippi — designed to drive attendance and deepen fan engagement across sporting events and campus activities.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE APP -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Mobile App</div></div>
+  <div class="grid-main">
+    <div class="overline">03 — Android experience</div>
+    <h2>A dynamic loyalty app for <em>mobile fans</em></h2>
+    <p class="body">The Android app served as the primary platform — giving fans a rich interface to check their points balance, browse available rewards, view upcoming events, and track their standing in real time. Point detection was fully automated through geofencing, ticket scanning, and beacon technology.</p>
+    <p class="body">Navigation was designed for in-stadium conditions: high-contrast visuals, large touch targets, and a streamlined information architecture that minimized steps to reach any key action.</p>
+    <div class="img-wrap-inner" style="margin-top: 36px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/8cff92cb-fb49-4b5e-acb0-fb8b07c0549c/phone+design.png" alt="Rebel Rewards — Android app screens">
+      <div class="img-caption">Android app — key screens across the loyalty experience</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Key features</div>
+      <div class="aside-note-text">Points dashboard · Rewards catalog · Event check-in · Leaderboard · Geofenced auto-detection</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Design focus</div>
+      <div class="aside-note-text">High-contrast visuals and large touch targets built for real in-stadium use — noisy, crowded, one-handed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WEARABLE -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">Wearable</div></div>
+  <div class="grid-main">
+    <div class="overline">04 — Samsung Gear S2</div>
+    <h2>Designing for engagement and <em>seamless interaction</em></h2>
+    <p class="body">The Gear S2 companion app extended the Rebel Rewards experience to the wrist — delivering real-time points notifications, quick-glance event info, and instant reward claims without reaching for a phone. Every interaction was stripped to its essential core.</p>
+    <p class="body">The circular display and rotary bezel navigation of the Gear S2 required a complete rethinking of layout and interaction patterns. Content was radically simplified, with a single-focus screen architecture and swipe-based flows designed for split-second engagement.</p>
+    <div class="half-grid" style="margin-top: 36px;">
+      <div class="img-wrap-inner">
+        <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/08894b87-3ffa-4615-8417-23e289b2baab/Shot+watch.png" alt="Rebel Rewards on Samsung Gear S2">
+        <div class="img-caption">Gear S2 — watch experience in context</div>
+      </div>
+      <div class="img-wrap-inner">
+        <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/15d2ff0f-33bd-480e-b66a-0c43206a5f57/watch+design-min.png" alt="Gear S2 screen designs">
+        <div class="img-caption">Gear S2 — screen designs and circular UI system</div>
+      </div>
+    </div>
+    <div class="impact-grid" style="margin-top: 56px;">
+      <div class="impact-card"><div class="impact-n">2</div><div class="impact-label">Platforms designed</div></div>
+      <div class="impact-card"><div class="impact-n">1yr</div><div class="impact-label">Project duration</div></div>
+      <div class="impact-card"><div class="impact-n">1</div><div class="impact-label">Cohesive design system</div></div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div>
+      <div class="aside-stat-n">S2</div>
+      <div class="aside-stat-label">Samsung Gear — circular UI system</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Constraint</div>
+      <div class="aside-note-text">Circular display, rotary bezel navigation, and a 1.2" screen demanded radical simplification — one idea per screen, every tap deliberate.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- NEXT PROJECT -->
+<a href="oscar-huerta-casestudy-pepsico.html" class="next">
+  <div>
+    <div class="next-eyebrow">Next project</div>
+    <div class="next-title">PepsiCo</div>
+  </div>
+  <div class="next-arrow">→</div>
+</a>
+
+<footer>
+  <div class="footer-copy">© 2025 Oscar Huerta</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/oscar-huerta-ux/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

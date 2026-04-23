@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flybox — Oscar Huerta</title>
+<meta name="description" content="Flybox smart storage mobile app and admin panel — UX/UI Design by Oscar Huerta. Startup, logistics, 2023.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,700;0,800;1,700;1,800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808; --off-black: #0f0f0f; --card: #131313;
+    --border: #1e1e1e; --muted: #2a2a2a;
+    --text-dim: #888; --text-mid: #aaa; --text-light: #ccc; --text-white: #f0ede8;
+    --accent: #c8f55a;
+    --pad: clamp(24px, 5vw, 72px);
+    --content-max: 720px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text-white); font-family: 'Raleway', sans-serif; overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px var(--pad); background: rgba(8,8,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+  .nav-logo:hover { color: var(--text-white); }
+  .back-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+  .back-btn:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100svh;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-left {
+    padding: 64px var(--pad);
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--border);
+    background: var(--off-black);
+    overflow: hidden;
+    min-width: 0;
+  }
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.72);
+    transition: transform 8s ease, filter 0.6s ease;
+    transform: scale(1.05);
+  }
+  .hero-right:hover img { transform: scale(1); filter: brightness(0.88); }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .hero-counter {
+    font-size: clamp(100px, 18vw, 240px); font-weight: 800;
+    line-height: 0.85; letter-spacing: -0.04em;
+    color: var(--border);
+    user-select: none; pointer-events: none;
+  }
+  .hero-title {
+    font-size: clamp(40px, 5.5vw, 72px); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 2px;
+  }
+  .tag.accent { border-color: rgba(200,245,90,0.3); color: var(--accent); }
+  .hero-meta-row {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 32px;
+  }
+  .mini-meta { flex: 1; padding: 16px 18px; border-right: 1px solid var(--border); }
+  .mini-meta:last-child { border-right: none; }
+  .mini-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .mini-value { font-size: 12px; font-weight: 600; }
+
+  /* ── CONTENT GRID ── */
+  .grid-row {
+    display: grid;
+    grid-template-columns: 64px 1fr 280px;
+    border-bottom: 1px solid var(--border);
+  }
+  .grid-row.alt { background: var(--off-black); }
+  .grid-gutter {
+    padding: 64px 0; border-right: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 72px;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.15em; color: var(--accent);
+    writing-mode: vertical-rl; text-orientation: mixed;
+    user-select: none;
+  }
+  .grid-main { padding: 64px 48px; }
+  .grid-aside {
+    border-left: 1px solid var(--border);
+    padding: 64px 28px;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .overline {
+    font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 300;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: clamp(26px, 3.5vw, 44px); font-weight: 800;
+    line-height: 1; letter-spacing: -0.03em; margin-bottom: 28px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  p.body { font-size: 15px; line-height: 1.9; color: var(--text-light); }
+  p.body + p.body { margin-top: 16px; }
+
+  /* ── ASIDE CALLOUTS ── */
+  .aside-stat-n {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1;
+  }
+  .aside-stat-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim); margin-top: 6px;
+  }
+  .aside-note {
+    padding: 20px; background: var(--card); border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+  }
+  .aside-note-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .aside-note-text { font-size: 13px; line-height: 1.65; color: var(--text-light); }
+  .aside-divider { height: 1px; background: var(--border); }
+
+  /* ── IMAGES ── */
+  .img-full { width: 100%; display: block; transition: transform 0.5s ease; }
+  .img-wrap-inner { overflow: hidden; }
+  .img-wrap-inner:hover .img-full { transform: scale(1.02); }
+  .img-caption {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-dim); padding: 12px 0;
+  }
+  .img-gap { margin-top: 2px; }
+  .half-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+  /* ── PULL QUOTE ── */
+  .inline-quote {
+    margin: 40px 0; padding: 32px 36px;
+    border-left: 2px solid var(--accent);
+    background: rgba(200,245,90,0.04);
+  }
+  .inline-quote-text {
+    font-size: clamp(18px, 2vw, 24px); font-weight: 700;
+    line-height: 1.4; letter-spacing: -0.01em;
+  }
+  .inline-quote-text em { color: var(--accent); font-style: italic; }
+
+  /* ── IMPACT ROW ── */
+  .impact-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 32px; min-width: 0; }
+  .impact-card { padding: clamp(20px, 4vw, 40px); border: 1px solid var(--border); min-width: 0; }
+  .impact-n {
+    font-size: clamp(48px, 7vw, 80px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--accent); line-height: 1; margin-bottom: 8px;
+  }
+  .impact-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  /* ── NEXT ── */
+  .next {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 72px var(--pad); text-decoration: none; color: inherit;
+    border-top: 1px solid var(--border); background: var(--off-black); gap: 24px;
+    transition: background 0.3s;
+  }
+  .next:hover { background: var(--card); }
+  .next-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 10px; }
+  .next-title { font-size: clamp(32px, 5vw, 64px); font-weight: 800; letter-spacing: -0.03em; line-height: 0.9; transition: color 0.2s; }
+  .next:hover .next-title { color: var(--accent); }
+  .next-arrow { font-size: 44px; color: var(--text-dim); transition: all 0.3s; flex-shrink: 0; }
+  .next:hover .next-arrow { color: var(--accent); transform: translateX(10px); }
+
+  /* ── FOOTER ── */
+  footer { padding: 28px var(--pad); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1200px) {
+    .grid-row { grid-template-columns: 64px 1fr 240px; }
+  }
+  @media (max-width: 1024px) {
+    .grid-row { grid-template-columns: 48px 1fr; }
+    .grid-aside { display: none; }
+    .hero-counter { font-size: clamp(80px, 14vw, 160px); }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; grid-template-rows: 260px auto; min-height: auto; }
+    .hero-left { order: 2; border-right: none; border-top: 1px solid var(--border); padding: 40px var(--pad) 48px; gap: 32px; }
+    .hero-right { order: 1; height: 260px; }
+    .hero-counter { font-size: clamp(72px, 20vw, 120px); }
+    .grid-row { grid-template-columns: 1fr; }
+    .grid-gutter { display: none; }
+    .grid-main { padding: 48px var(--pad); }
+    .grid-aside { display: flex; flex-direction: column; gap: 0; border-left: none; border-top: 1px solid var(--border); padding: 32px var(--pad) 40px; }
+    .aside-divider { display: none; }
+    .aside-note { margin-bottom: 12px; }
+    .half-grid { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero-meta-row { flex-wrap: wrap; }
+    .mini-meta { flex: 1 1 100px; border-right: none; border-bottom: 1px solid var(--border); }
+    .mini-meta:last-child { border-bottom: none; }
+    .next { padding: 48px var(--pad); }
+    .next-title { font-size: clamp(28px, 7vw, 48px); }
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    .hero-right { height: 200px; }
+    .hero-counter { font-size: clamp(56px, 22vw, 96px); }
+    .hero-meta-row { flex-direction: column; }
+    .mini-meta { border-right: none; }
+    .impact-grid { grid-template-columns: 1fr; }
+    .impact-card { padding: 28px 24px; }
+    .impact-n { font-size: clamp(40px, 11vw, 64px); }
+    .p-card { padding: 24px 20px; }
+    .inline-quote { padding: 24px; margin: 32px 0; }
+    .grid-main { padding: 40px var(--pad); }
+    .grid-aside { padding: 24px var(--pad) 32px; }
+    nav { padding: 16px var(--pad); }
+    .next { padding: 40px var(--pad); gap: 16px; }
+    .next-arrow { font-size: 32px; }
+  }
+  img, video { max-width: 100%; height: auto; }
+  .hero-right img { height: 100%; width: 100%; }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .hero-right img { transform: none !important; }
+  }
+
+  /* ── ACCESSIBILITY ── */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  :focus:not(:focus-visible) { outline: none; }
+  .skip-link {
+    position: absolute; top: -100%; left: 24px; z-index: 10000;
+    background: var(--accent); color: var(--black);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    padding: 8px 24px; transition: top 0.2s;
+  }
+  .skip-link:focus { top: 24px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav>
+  <a href="index.html" class="nav-logo">Oscar Huerta</a>
+  <a href="index.html" class="back-btn">← All work</a>
+</nav>
+
+<main id="main-content">
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-left">
+    <div>
+      <div class="hero-eyebrow">03 / 05 &nbsp;·&nbsp; Logistics & Storage</div>
+    </div>
+    <div>
+      <div class="hero-counter">03</div>
+    </div>
+    <div>
+      <h1 class="hero-title">Fly<em>box</em></h1>
+      <div class="hero-tags">
+        <span class="tag accent">Mobile App</span>
+        <span class="tag">UX/UI Design</span>
+        <span class="tag">Admin Panel</span>
+        <span class="tag">2023</span>
+      </div>
+      <div class="hero-meta-row">
+        <div class="mini-meta"><div class="mini-label">Role</div><div class="mini-value">UI/UX Designer</div></div>
+        <div class="mini-meta"><div class="mini-label">Duration</div><div class="mini-value">1 Year</div></div>
+        <div class="mini-meta"><div class="mini-label">Year</div><div class="mini-value">2023</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/ba66fce3-d1bf-47f8-8b44-3de2a06316cc/Hero.png" alt="Flybox — smart storage app">
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Overview</div></div>
+  <div class="grid-main">
+    <div class="overline">01 — Context</div>
+    <h2>End-to-end design for a <em>smart storage</em> service</h2>
+    <p class="body">Flybox transforms personal storage through an app-centered approach that prioritizes simplicity, speed, and mobile-first design. The challenge was to support the entire logistics flow — from the customer-facing app to the internal admin tools used by operations teams.</p>
+    <p class="body">The product design team developed visual and interaction patterns for the customer application, delivering an interface that feels contemporary and approachable. The platform simplifies core tasks — scheduling pickups, browsing stored belongings, and arranging deliveries — making each interaction seamless and uncomplicated.</p>
+    <div class="img-wrap-inner" style="margin-top: 40px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/70b36e3a-9da9-4fa6-b9b0-f7c4b8d72304/Shot3-min.png" alt="Flybox app — overview screens">
+      <div class="img-caption">Customer app — key screens overview</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div>
+      <div class="aside-stat-n">2</div>
+      <div class="aside-stat-label">Products designed end-to-end</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Scope</div>
+      <div class="aside-note-text">Customer-facing mobile app and an internal admin panel for logistics operations — designed in parallel with shared components.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ROLE -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">My Role</div></div>
+  <div class="grid-main">
+    <div class="overline">02 — Contribution</div>
+    <h2>Visual identity, customer app &amp; <em>admin panel</em></h2>
+    <p class="body">As UI/UX Designer, I contributed to establishing Flybox's visual and functional identity. My work encompassed the customer-facing mobile application alongside leading the administrative panel used by internal logistics personnel.</p>
+    <p class="body">Responsibilities included designing user-centered interfaces, maintaining design consistency across both products, and converting sophisticated operational requirements into intuitive, practical solutions.</p>
+    <blockquote class="inline-quote" style="margin-top: 40px;">
+      <p class="inline-quote-text">A digital experience built to <em>support the entire logistics flow</em> — from the customer-facing app to the internal admin tools.</p>
+    </blockquote>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Deliverables</div>
+      <div class="aside-note-text">UI/UX Design · Design system · Component library · Admin panel · Interaction design · Handoff specs</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Tools</div>
+      <div class="aside-note-text">Figma · Principle · Jira · Zeroheight</div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER APP -->
+<div class="grid-row">
+  <div class="grid-gutter"><div class="section-num">Customer App</div></div>
+  <div class="grid-main">
+    <div class="overline">03 — Core product</div>
+    <h2>A smart and intuitive app for <em>on-demand storage</em></h2>
+    <p class="body">Each screen was carefully crafted to minimize friction, surface key information, and build user confidence — especially around logistics and timing. Users can schedule pickups, track their stored items visually, and arrange deliveries directly from the app.</p>
+    <p class="body">The design language leans into clarity: generous white space, strong typographic hierarchy, and a color system that guides users through each step without cognitive overload.</p>
+    <div class="img-wrap-inner" style="margin-top: 36px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/ee077715-fa2a-4662-88e6-4a872e3c9ada/Delivery.png" alt="Delivery flow screens">
+      <div class="img-caption">Delivery flow — scheduling and tracking experience</div>
+    </div>
+    <div class="img-wrap-inner img-gap">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/1c01ffa1-8bf6-4059-9dd7-9bef1853815c/Screens.png" alt="Full app screens">
+      <div class="img-caption">Full app — core screens across the main user flows</div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div class="aside-note">
+      <div class="aside-note-label">Key flows</div>
+      <div class="aside-note-text">Pickup scheduling · Item browsing · Delivery management · Account & billing · Onboarding</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Approach</div>
+      <div class="aside-note-text">Mobile-first design with an emphasis on reducing steps and surfacing the right information at each moment in the logistics journey.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="grid-row alt">
+  <div class="grid-gutter"><div class="section-num">Admin Panel</div></div>
+  <div class="grid-main">
+    <div class="overline">04 — Internal tool</div>
+    <h2>An efficient internal tool for <em>operations at scale</em></h2>
+    <p class="body">The internal dashboard supports the logistics team managing users, storage facilities, and delivery operations. Design prioritized usability and efficiency — streamlining processes and establishing reusable components that could grow with the business.</p>
+    <p class="body">The outcome delivers a purposeful platform enabling staff to manage substantial activity volumes with reliability and speed — reducing manual overhead and giving the operations team full visibility across the entire service.</p>
+    <div class="img-wrap-inner" style="margin-top: 36px;">
+      <img class="img-full" loading="lazy" src="https://images.squarespace-cdn.com/content/v1/682605c659ae8910855242f3/5667f94b-3216-4692-b4d4-f9a8e361c11c/Admin+2.png" alt="Admin panel — operations dashboard">
+      <div class="img-caption">Admin panel — operations dashboard for the logistics team</div>
+    </div>
+    <div class="impact-grid" style="margin-top: 56px;">
+      <div class="impact-card"><div class="impact-n">2</div><div class="impact-label">Products designed</div></div>
+      <div class="impact-card"><div class="impact-n">1yr</div><div class="impact-label">Project duration</div></div>
+      <div class="impact-card"><div class="impact-n">1</div><div class="impact-label">Shared design system</div></div>
+    </div>
+  </div>
+  <div class="grid-aside">
+    <div>
+      <div class="aside-stat-n">1</div>
+      <div class="aside-stat-label">Shared system across both products</div>
+    </div>
+    <div class="aside-divider" aria-hidden="true"></div>
+    <div class="aside-note">
+      <div class="aside-note-label">Outcome</div>
+      <div class="aside-note-text">A purposeful internal platform that reduced manual overhead and gave operations full visibility — built on the same component foundation as the customer app.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- NEXT PROJECT -->
+<a href="oscar-huerta-casestudy-rebelrewards.html" class="next">
+  <div>
+    <div class="next-eyebrow">Next project</div>
+    <div class="next-title">Rebel Rewards</div>
+  </div>
+  <div class="next-arrow">→</div>
+</a>
+
+<footer>
+  <div class="footer-copy">© 2025 Oscar Huerta</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/oscar-huerta-ux/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
